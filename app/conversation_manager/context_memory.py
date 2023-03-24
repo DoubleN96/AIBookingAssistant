@@ -1,3 +1,4 @@
+# import gradio as gr
 import os
 import openai
 
@@ -22,3 +23,5 @@ def get_response(message_history: list[dict], user_input: str):
           model="gpt-3.5-turbo",
           messages=message_history
     )
+# TODO: Add voice Input
+
