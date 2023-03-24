@@ -25,10 +25,9 @@ We decided to use OpenAI Whisper because it is a powerful natural language proce
 
 2. Personalized Recommendations: By using OpenAI Whisper we help to generate personalized recommendations for room rental based on a user's preferences and past behavior, companies could improve customer satisfaction and create a more enjoyable rental experience for their users.
 
-3. Intelligent Search: Room rental platforms could leverage OpenAI Whisper to improve their search functionality by allowing users to search for rooms using natural language queries. This could make it easier for users to find the right room for their needs and create a more streamlined search experience.
-
-
-
-
+3. Intelligent Search: Room rental platforms could leverage OpenAI Whisper to improve their search functionality by allowing users to search for rooms using natural language queries. This could make it easier for users to find the right room for their needs and create a more streamlined search experience.  
+  
+  
+  
 participating  
 [chatgpt-api-and-whisper-api-global-hackathon](https://lablab.ai/event/chatgpt-api-and-whisper-api-global-hackathon)  
