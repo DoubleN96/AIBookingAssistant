@@ -11,12 +11,13 @@ It will guide the customer towards the booking procedure.
 To add confidence to the customer normally a sales rep is needed for conferences or a booking agency to close de booking, that is more common in mid-term booking (>1 Month)
 
 
-
 There is 3 parts of the Life Cycle of a customer booking process:
 1. Pre- Booking. The customer is looking for information and comparison and needs confidence to book and decide about the booking details.
 2. Booked, during the stay. He is already in the room, so he will need info about the surrounding areas,  
     things to do, reporting issues.
 3. Post booking. Ask him for review, and he can also ask for his guarantee deposit to be back.
+
+## Solution 
 
 We decided to use OpenAI Whisper because it is a powerful natural language processing tool that has a lot of potential to enhance the room rental experience. While it may not have direct implications to the room rental, we combined it with other technologies to create a more seamless and user-friendly experience for renters during the booking procedure.
 
