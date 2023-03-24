@@ -24,4 +24,4 @@ def get_response(message_history: list[dict], user_input: str):
           messages=message_history
     )
 # TODO: Add voice Input
-
+# TODO: Add Redis and import CSV
