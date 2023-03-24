@@ -1,0 +1,35 @@
+FROM python:3.10.10-slim-bullseye
+
+ENV PYTHONDONTWRITEBYTECODE=1
+# LANG must be C.UTF-8 for correct python UTF-8 support (note: cs_CZ.UTF-8 doesn't work!)
+ENV PYTHONIOENCODING=utf-8
+ENV LANG C.UTF-8
+ENV LC_ALL C.UTF-8
+
+ENV VIRTUAL_ENV=/home/chatbot_fastapi/.venv
+RUN python -m venv $VIRTUAL_ENV
+ENV PATH "$VIRTUAL_ENV/bin:$PATH"
+
+ENV PYTHONPATH /home/chatbot_fastapi/app/:${PYTHONPATH}
+
+WORKDIR /home/chatbot_fastapi
+
+# Copy and install python packages
+COPY requirements.gui.txt /home/chatbot_fastapi/
+COPY gui_starter.sh /home/chatbot_fastapi/
+COPY app/streamlit_app.py /home/chatbot_fastapi/app/
+
+ENV USER=assistant
+# Add user because of correct rights in openshift
+RUN adduser --uid 73826 --no-create-home --ingroup root --disabled-password --gecos "" ${USER} \
+  && chown -R ${USER}:root /home/chatbot_fastapi \
+  && chmod -R 770 /home/chatbot_fastapi
+USER ${USER}
+
+RUN python -m pip install --upgrade pip
+RUN pip install --no-cache-dir -r /home/chatbot_fastapi/requirements.gui.txt
+
+RUN ["chmod", "+x", "./gui_starter.sh"]
+
+# Run APP
+CMD ./gui_starter.sh

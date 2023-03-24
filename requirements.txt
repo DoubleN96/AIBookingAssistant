@@ -1,0 +1,5 @@
+openai
+langchain
+fastapi
+gunicorn==20.1.0
+uvicorn==0.21.1

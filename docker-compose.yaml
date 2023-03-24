@@ -1,0 +1,46 @@
+version: "3.8"
+
+x-volumes: &volumes
+  - type: volume
+    source: shared-volume
+    target: /home/chatbot_fastapi/app/models
+
+services:
+    chatbot_fastapi:
+        # platform: linux/amd64
+        build:
+          context: .
+          dockerfile: Dockerfile.api
+        volumes: *volumes
+        networks:
+          - internal
+          - shared
+        container_name: ${COMPOSE_PROJECT_NAME}
+        ports:
+            - ${PORT}:5300
+        env_file:
+            - .env
+
+    streamlit_app:
+      build:
+        context: .
+        dockerfile: Dockerfile.gui
+      ports:
+        - 8501:8501
+      volumes:
+        - .:/app
+      networks:
+        - internal
+        - shared
+      depends_on:
+        - chatbot_fastapi
+      env_file:
+        - .env.gui
+
+volumes:
+    shared-volume:
+
+
+networks:
+    internal:
+    shared:

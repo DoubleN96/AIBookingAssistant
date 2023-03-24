@@ -1,0 +1,4 @@
+COMPOSE_PROJECT_NAME=chatbot_api
+PORT=5300
+APP_VERSION=0.0.1
+OPEN_API_KEY=sk-xxxxxxxxxxxxxxx
