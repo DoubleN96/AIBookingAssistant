@@ -1,6 +1,6 @@
 #import gradio as gr
 #import openai, config, subprocess
-#openai.api_key = config.OPENAI_API_KEY
+#openai.api_key = os.environ.get('OPEN_API_KEY')
 #
 #messages = [
 #                {"role": "system", "content": "You are a friendly room booking assistant."},

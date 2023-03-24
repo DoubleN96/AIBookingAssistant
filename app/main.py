@@ -15,7 +15,7 @@ APP_VERSION = os.environ.get('APP_VERSION', None)
 
 app = FastAPI(
     root_path=os.environ.get('FAST_API_ROOT_PATH', ''),
-    title="REST API for interacting with chatgptt model.",
+    title="REST API for interacting with chatGPT model.",
     version=APP_VERSION
 )
 

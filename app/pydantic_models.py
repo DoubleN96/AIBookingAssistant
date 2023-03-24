@@ -15,6 +15,6 @@ class TextItem(BaseModel):
             {"role": "system", "content": "You are a helpful friendly room booking assistant."},
             {"role": "user", "content": "Where do you recommend to go to holidays?"},
             {"role": "assistant", "content": "It depends on your requirements and personal interests."},
-            {"role": "user", "content": "Personally I prefer ?"}
+            {"role": "user", "content": "Personally I prefer ..."}
         ]
     )
