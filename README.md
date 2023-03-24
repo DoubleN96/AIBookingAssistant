@@ -3,7 +3,7 @@
 
 ## Description
 
-We designed an AI chatbot that can be added as a plugin in the website of a Hotel or a Room rental business that can answer the customers questions regarding rooms and booking. 
+We designed an AI chatbot that can be added as a plugin in the website of a Hotel or a Room rental business that can answer the customers questions regarding rooms and booking.  
 It will guide the customer towards the booking procedure.
 
 ## Problem
