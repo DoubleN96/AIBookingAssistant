@@ -1,5 +1,6 @@
 import os
 import logging
+import numpy as np
 
 from fastapi import FastAPI, HTTPException, Request, status
 from fastapi.exceptions import RequestValidationError
@@ -8,8 +9,14 @@ from fastapi.responses import JSONResponse
 from time import perf_counter
 
 
-from app.conversation_manager.context_memory import get_response
+from app.conversation_manager.context_memory import get_response, get_booking_chain, booking_interact
 from app.pydantic_models import TextItem
+
+from app.data.data_loaders import get_room_dataframe
+from app.vectorizers.sentence_transformer import get_data_vectors, NUMBER_PRODUCTS
+from app.vectorizers.sentence_transformer import model as vectorizer
+from app.redis_manager.redis_connector import get_redis_connector, create_flat_index, get_booking_query
+
 
 APP_VERSION = os.environ.get('APP_VERSION', None)
 
@@ -20,6 +27,21 @@ app = FastAPI(
 )
 
 logging.info('☺ ☺ ☺ waiting for input ☺ ☺ ☺')
+
+DATA = get_room_dataframe()
+DATA_VECTORS = get_data_vectors(DATA)
+REDIS_CONNECTOR = get_redis_connector('redis')
+
+REDIS_CONNECTOR.flushall()
+create_flat_index(
+    REDIS_CONNECTOR,
+    'item_keyword_vector',
+    NUMBER_PRODUCTS,
+    768,
+    'COSINE'
+)
+
+BOOKING_CHAIN = get_booking_chain()
 
 
 def register_exception(app: FastAPI):
@@ -51,7 +73,7 @@ def health():
 
 @app.post(
     '/chat',
-    name='Text clustering.',
+    name='Text chatting.',
     description='Servicing chatting api.',
 )
 def chat(user_input: TextItem):
@@ -60,4 +82,27 @@ def chat(user_input: TextItem):
 
     return {
         'output': generated_response.to_dict()['choices'][-1]['message']['content']
+    }
+
+
+@app.post(
+    '/recommend',
+    name='Room recommendation.',
+    description='Servicing chatting api.',
+)
+def recommend(user_input: TextItem):
+    # Run the chain only specifying the input variable.
+    keywords = BOOKING_CHAIN.run(user_input.text)
+
+    top_k = 3
+    # vectorize the query
+    query_vector = vectorizer.encode(keywords).astype(np.float32).tobytes()
+    params_dict = {"vec_param": query_vector}
+
+    # Execute the query
+    results = REDIS_CONNECTOR.ft().search(get_booking_query(top_k), query_params=params_dict)
+    agent, answer = booking_interact(results, user_input.text)
+
+    return {
+        'output': answer, 'results': [item.__dict__ for item in results.docs]
     }
