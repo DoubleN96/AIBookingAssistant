@@ -9,7 +9,7 @@ from langchain.chains import LLMChain
 from langchain.memory import ConversationBufferMemory
 
 MODEL = 'gpt-3.5-turbo'
-openai.api_key = os.environ.get('OPEN_API_KEY', "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")
+openai.api_key = os.environ.get('OPEN_API_KEY', "XXXXXXXXXXXX")
 
 BOOKING_AGENT_TEMPLATE = """
 You are a room booking ASSISTANT. Be kind, detailed and try to sell the booking of the apartment to me. 
