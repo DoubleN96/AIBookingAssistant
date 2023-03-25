@@ -4,7 +4,7 @@ import pandas as pd
 from sentence_transformers import SentenceTransformer
 
 model = SentenceTransformer(
-    'sentence-transformers/all-distilroberta-v1', cache_folder='/home/chatbot_fastapi/app/data/'
+    'sentence-transformers/all-distilroberta-v1', cache_folder='/home/chatbot_fastapi/app/data/', device='cuda:0'
 )
 
 MAX_TEXT_LENGTH = 400
@@ -16,7 +16,7 @@ def auto_truncate(val):
 
 
 def get_data_vectors(room_data: pd.DataFrame):
-    logging.info(f'Vectorizing index data...')
+    logging.warning(f'Vectorizing index data...')
 
     # get the first 1000 products with non-empty item keywords
     rooms_metadata = room_data.head(NUMBER_PRODUCTS).to_dict(orient='index')

@@ -12,6 +12,7 @@ services:
           context: .
           dockerfile: Dockerfile.api
         volumes: *volumes
+        runtime: nvidia
         networks:
           - internal
           - shared
@@ -46,7 +47,6 @@ services:
         - 6379:6379
       environment:
         - ALLOW_EMPTY_PASSWORD=yes
-
 
 volumes:
     shared-volume:

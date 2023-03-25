@@ -1,21 +1,24 @@
-FROM python:3.10.10-slim-bullseye
+FROM nvidia/cuda:11.6.0-base-ubuntu20.04
 
-ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHON_VERSION=3.10
 # LANG must be C.UTF-8 for correct python UTF-8 support (note: cs_CZ.UTF-8 doesn't work!)
 ENV PYTHONIOENCODING=utf-8
 ENV LANG C.UTF-8
 ENV LC_ALL C.UTF-8
 
-ENV VIRTUAL_ENV=/home/chatbot_fastapi/.venv
-RUN python -m venv $VIRTUAL_ENV
-ENV PATH "$VIRTUAL_ENV/bin:$PATH"
+RUN apt update
+#RUN export DEBIAN_FRONTEND=noninteractive
 
+RUN apt-get install -y software-properties-common
+RUN add-apt-repository ppa:deadsnakes/ppa
+
+RUN apt-get install -y git ffmpeg \
+    python3.10 python3.10-dev python3.10-venv python3-pip
+
+ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONPATH /home/chatbot_fastapi/app/:${PYTHONPATH}
 
 WORKDIR /home/chatbot_fastapi
-
-# Copy and install python packages
-COPY requirements.txt /home/chatbot_fastapi/
 
 ENV USER=chatbot_fastapi
 # Add user because of correct rights in openshift
@@ -24,8 +27,16 @@ RUN adduser --uid 73826 --no-create-home --ingroup root --disabled-password --ge
   && chmod -R 770 /home/chatbot_fastapi
 USER ${USER}
 
+# Copy and install python packages
+COPY requirements.txt /home/chatbot_fastapi/
+
+ENV VIRTUAL_ENV=/home/chatbot_fastapi/.venv
+RUN python3.10 -m venv $VIRTUAL_ENV
+ENV PATH "$VIRTUAL_ENV/bin:$PATH"
+
 RUN python -m pip install --upgrade pip
 RUN pip install --no-cache-dir -r /home/chatbot_fastapi/requirements.txt
+RUN pip install torch==1.12.1+cu113 torchvision==0.13.1+cu113 torchaudio==0.12.1+cu113 -f https://download.pytorch.org/whl/torch_stable.html
 
 COPY --chown=${USER}:root . /home/chatbot_fastapi/
 

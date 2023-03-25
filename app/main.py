@@ -1,4 +1,6 @@
 import os
+import re
+import json
 import logging
 import numpy as np
 
@@ -9,7 +11,7 @@ from fastapi.responses import JSONResponse
 from time import perf_counter
 
 
-from app.conversation_manager.context_memory import get_response, get_booking_chain, booking_interact
+from app.conversation_manager.context_memory import get_response, get_booking_chain, booking_interact, booking_get_requirement_info
 from app.pydantic_models import TextItem
 
 from app.data.data_loaders import get_room_dataframe
@@ -17,6 +19,14 @@ from app.vectorizers.sentence_transformer import get_data_vectors, NUMBER_PRODUC
 from app.vectorizers.sentence_transformer import model as vectorizer
 from app.redis_manager.redis_connector import get_redis_connector, create_flat_index, get_booking_query
 
+
+BOOKING_URL = 'https://book.tripath.es/instance/' \
+              '?check_in=2023-04-01' \
+              '&check_out=2023-08-31' \
+              '&guest=1&adult_guest=1&child_guest=0' \
+              '&extra_options%5B0%5D=Utilities%7C50%7Cper_night' \
+              '&listing_id=26521145141251' \
+              '&guest_message=URL%20Provided%20by%20Tripath'
 
 APP_VERSION = os.environ.get('APP_VERSION', None)
 
@@ -28,11 +38,16 @@ app = FastAPI(
 
 logging.info('☺ ☺ ☺ waiting for input ☺ ☺ ☺')
 
+BOOKINGS_CACHE = {}
+BOOKING_REQUEST = {}
+app.interaction_count = 0
+
 DATA = get_room_dataframe()
 DATA_VECTORS = get_data_vectors(DATA)
 REDIS_CONNECTOR = get_redis_connector('redis')
 
 REDIS_CONNECTOR.flushall()
+
 create_flat_index(
     REDIS_CONNECTOR,
     'item_keyword_vector',
@@ -91,18 +106,65 @@ def chat(user_input: TextItem):
     description='Servicing chatting api.',
 )
 def recommend(user_input: TextItem):
-    # Run the chain only specifying the input variable.
-    keywords = BOOKING_CHAIN.run(user_input.text)
+    logging.warning(
+        [BOOKINGS_CACHE, BOOKING_REQUEST]
+    )
+    if not BOOKINGS_CACHE:
+        if all(required in BOOKING_REQUEST for required in [
+            'BOOKING_START', 'BOOKING_END', 'CITY', 'BUDGET', 'GUEST_COUNT', 'FULL_NAME'
+        ]):
+            app.interaction_count += + 1
+            if app.interaction_count == 1:
+                # Run the chain only specifying the input variable.
+                keywords = BOOKING_CHAIN.run(
+                    user_input.text + ', these are reservation specification: ' + str(BOOKING_REQUEST)
+                )
 
-    top_k = 3
-    # vectorize the query
-    query_vector = vectorizer.encode(keywords).astype(np.float32).tobytes()
-    params_dict = {"vec_param": query_vector}
+                top_k = 3
+                # vectorize the query
+                query_vector = vectorizer.encode(keywords).astype(np.float32).tobytes()
+                params_dict = {"vec_param": query_vector}
 
-    # Execute the query
-    results = REDIS_CONNECTOR.ft().search(get_booking_query(top_k), query_params=params_dict)
-    agent, answer = booking_interact(results, user_input.text)
+                # Execute the query
+                results = REDIS_CONNECTOR.ft().search(get_booking_query(top_k), query_params=params_dict)
+            else:
+                results = {}
+
+            agent, answer = booking_interact(
+                results, user_input.text + ', specification of booking requirements: ' + str(BOOKING_REQUEST)
+            )
+            logging.warning(answer)
+            try:
+                json_entities_string = re.findall(r'{.+}', answer, flags=re.MULTILINE | re.DOTALL)[0]
+                answer = answer.split('{')[0]
+            except Exception:
+                json_entities_string = '{}'
+
+            entity_dict = json.loads(json_entities_string)
+            logging.warning(entity_dict)
+
+            if entity_dict.get('BOOKING_CONFIRMED'):
+                BOOKINGS_CACHE['id'] = entity_dict
+        else:
+            logging.warning('asking for info')
+            agent, answer = booking_get_requirement_info(user_input.text, BOOKING_REQUEST)
+            logging.warning(answer)
+            try:
+                json_entities_string = re.findall('{.+}', answer, flags=re.MULTILINE | re.DOTALL)[0]
+                answer = answer.split('{')[0]
+            except Exception:
+                json_entities_string = '{}'
+
+            entity_dict = json.loads(json_entities_string)
+            logging.warning(entity_dict)
+
+            for key in entity_dict:
+                if entity_dict[key]:
+                    if entity_dict[key].strip('_'):
+                        BOOKING_REQUEST[key] = entity_dict[key]
+    else:
+        answer = 'Your apartment was booked already.'
 
     return {
-        'output': answer, 'results': [item.__dict__ for item in results.docs]
+        'output': answer
     }
