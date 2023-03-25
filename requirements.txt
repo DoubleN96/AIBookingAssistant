@@ -1,5 +1,9 @@
-openai
-langchain
-fastapi
+openai==0.27.2
+langchain==0.0.123
+fastapi==0.95.0
 gunicorn==20.1.0
 uvicorn==0.21.1
+pandas==1.5.3
+numpy==1.24.2
+sentence_transformers==2.2.2
+redis==4.5.3
