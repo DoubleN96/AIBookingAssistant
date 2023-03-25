@@ -9,7 +9,7 @@ from langchain.chains import LLMChain
 from langchain.memory import ConversationBufferMemory
 
 MODEL = 'gpt-3.5-turbo'
-openai.api_key = os.environ.get('OPEN_API_KEY', "XXXXXXXXXXXX")
+openai.api_key = os.environ.get('OPEN_API_KEY', "sk-xxx")
 
 BOOKING_AGENT_TEMPLATE = """
 You are a room booking ASSISTANT. Be kind, detailed and try to sell the booking of the apartment to me. 
@@ -54,7 +54,7 @@ def get_booking_chain():
 def booking_get_requirement_info(userinput, booking_known_info):
     prompt_text = (
         "USER is asking to book a room, you are a room booking ASSISTANT,"
-        " asking USER for information about booking he wants to make." +
+        " asking USER for information, EXTRACT THOSE INFORMATION about booking he wants to make." +
         "You already know these information: " + str(booking_known_info)[1:-1] +
         "ONLY ask him nicely for the information missing information: "
         "BOOKING_START, BOOKING_END, FULL_NAME, CITY, BUDGET, GUEST_COUNT" +
@@ -75,7 +75,7 @@ def booking_get_requirement_info(userinput, booking_known_info):
     )
     memory = ConversationBufferMemory(memory_key="chat_history")
     llm_chain = LLMChain(
-        llm=OpenAI(model_name="gpt-3.5-turbo", temperature=0.8,
+        llm=OpenAI(model_name="gpt-3.5-turbo", temperature=0.,
                    openai_api_key=openai.api_key),
         prompt=prompt_object,
         verbose=False,
