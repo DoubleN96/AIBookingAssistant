@@ -3,7 +3,7 @@ version: "3.8"
 x-volumes: &volumes
   - type: volume
     source: shared-volume
-    target: /home/chatbot_fastapi/app/models
+    target: /home/chatbot_fastapi/app/
 
 services:
     chatbot_fastapi:

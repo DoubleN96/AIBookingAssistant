@@ -28,13 +28,13 @@ def get_booking_query(topK, city_code):
         ).add_filter(
             NumericFilter('city_id', city_code, city_code),
         ).sort_by('vector_score').paging(0, topK).return_fields(
-            'vector_score', 'property_type', 'name', 'amenities', 'city', 'city_id'
+            'vector_score', 'description', 'city', 'city_id', 'price'
         ).dialect(2)
     else:
         return Query(
             f'*=>[KNN {topK} @item_keyword_vector $vec_param AS vector_score]'
         ).sort_by('vector_score').paging(0, topK).return_fields(
-            'vector_score', 'property_type', 'name', 'amenities', 'city', 'city_id'
+            'vector_score', 'description', 'city', 'city_id', 'price'
         ).dialect(2)
 
 
@@ -51,11 +51,10 @@ def create_flat_index(redis_conn, vector_field_name, number_of_vectors, vector_d
                 "BLOCK_SIZE": number_of_vectors
             }
         ),
-        TextField("property_type", as_name='property_type'),
-        TextField("name", as_name='name'),
-        TextField("amenities", as_name='amenities'),
+        TextField("description", as_name='description'),
         TextField("city", as_name='city'),
-        NumericField("city_id", as_name='city_id')
+        NumericField("city_id", as_name='city_id'),
+        TextField("price", as_name='price')
     ])
 
 

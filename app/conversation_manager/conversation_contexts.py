@@ -21,6 +21,7 @@ def recommend_booking(
     interaction_count += + 1
     logging.warning(interaction_count)
     if interaction_count == 1:
+        message_history = []
         # Run the chain only specifying the input variable.
         keywords = booking_chain.run(
             user_input + ', in city: ' + context_entities['CITY'] + ', these are reservation specification: ' + str(context_entities)
@@ -98,57 +99,58 @@ def recommend_found_bookings(message_history, results, user_input):
     if not message_history:
         system_content = {
                 "role": "system",
-                "content": "You are a REST API SYSTEM connected to AI booking asistant,"
-                           "when given three booking options, you give description, you provide JSON OUTPUT,"
-                           "Output:\n"
-                           "{"
-                           "'ANSWER': 'Nice description of the three options'"
-                           "'USER_CONFIRMED_CHOICE': Boolean True or False value "
-                           "based on whether positive confirmation was given by user, "
-                           "'LISTING_ID': LISTING_ID which is the id of the apartment "
+                "content": "You are a REST API SYSTEM connected to AI booking assistant,"
+                           "user gives three booking options, SYSTEM ALWAYS REPEATS SHORTENED DESCRIPTION "
+                           "OF OPTIONS AND PRESENTS "
+                           "each and ask for users preference in ANSWER,"
+                           " SYSTEM provides "
+                           "JSON OUTPUT containing USER_CONFIRMED_CHOICE key and LISTING_ID "
                            "if USER_CONFIRMED_CHOICE is True, "
-                           "}\n"
-                           "You are connected to nice AI booking ASSISTANT. "
-                           "AI booking ASSISTANT is NEVER FORGETS TO PRESENT each of three previously given options, "
-                           "and tries to sell and tell a little bit about each of three offers,"
+                           "USER_CONFIRMED_CHOICE is True when user chooses one of three options,"
+                           "LISTING_ID contains ID of chosen option."
+                           "Output:\n"
+                           '{'
+                           '"ANSWER": "Nice description of the three options.",'
+                           '"USER_CONFIRMED_CHOICE": Boolean True or False value '
+                           'depending on whether user chose one option, '
+                           '"LISTING_ID": LISTING_ID which is the id of the apartment '
+                           'if USER_CONFIRMED_CHOICE is True'
+                           '}\n'
                            "REST API SYSTEM has consistent output.\n"
-                           "After presenting the options, "
-                           "REST API SYSTEM OUTPUTS JSON containing an ANSWER from AI booking ASSISTANT and "
-                           "information of state of confirmation and "
-                           "booking id in USER_CONFIRMED_CHOICE and LISTING_ID.\n"
-                           "After confirmation is received you might also "
-                           "ask if user needs recommendations for things to do in the city."
-                           "YOU DONT ASK QUESTIONS ABOUT THE BOOKING, YOU DO NOT ASK FOR ADDITIONAL INFORMATION, "
-                           "YOU only ask for choice confirmation at the begging and "
-                           "YOU ALWAYS GIVE OUTPUT as JSON, see example bellow."
-                           "YOU ARE A REST API, YOUR OUTPUT FORMAT IS JSON"
+                           "REST API SYSTEM ALWAYS OUTPUTS JSON containing an ANSWER from AI booking ASSISTANT and "
+                           " USER_CONFIRMED_CHOICE and LISTING_ID INFORMATION BASED ON DESCRIBED FORMAT.\n"
+                           "SYSTEM DOESNT ASK QUESTIONS ABOUT THE BOOKING, "
+                           "SYSTEM DOES NOT ASK FOR ADDITIONAL INFORMATION, "
+                           "SYSTEM only asks for choice confirmation at the beginning and "
+                           "SYSTEM ALWAYS GIVES OUTPUT as JSON, see example bellow."
+                           "SYSTEM IS A REST API, SYSTEMS OUTPUT FORMAT IS ALWAYS JSON"
                            "\n\n"
                            "OUTPUT Format definition:"
-                           "{"
-                           "'ANSWER': 'Nice description of the three options',"
-                           "'USER_CONFIRMED_CHOICE': Boolean True or False value "
-                           "based on whether positive confirmation was given by user, "
-                           "'LISTING_ID': LISTING_ID which is the id of the apartment "
-                           "if USER_CONFIRMED_CHOICE is True,"
-                           "}\n\n"
+                           '{'
+                           '"ANSWER": "Nice description of the three options",'
+                           '"USER_CONFIRMED_CHOICE": Boolean True or False value '
+                           'based on whether positive confirmation was given by user, '
+                           '"LISTING_ID": LISTING_ID which is the id of the apartment ' 
+                           'if USER_CONFIRMED_CHOICE is True,'
+                           '}\n\n'
                            "Examples:\n"
                            "1. Sentence: I don't know, which to choose.\n"
                            "Output:"
-                           "{"
-                           "'ANSWER': 'Oh I think based on what you were looking for, "
-                           "the second one would be the best fit.',"
-                           "'USER_CONFIRMED_CHOICE': False, "
-                           "'LISTING_ID': None "
-                           "}"
+                           '{'
+                           '"ANSWER": "Oh I think based on what you were looking for, '
+                           'the second one would be the best fit.",'
+                           '"USER_CONFIRMED_CHOICE": False, '
+                           '"LISTING_ID": None '
+                           '}'
                            "\n"
                            "\n"
                            "2. Sentence: I love the sound of the third one.\n"
                            "Output:"
-                           "{"
-                           "'ANSWER': 'That is a great choice, I will record to booking for you right away.', "
-                           "'USER_CONFIRMED_CHOICE': True, "
-                           "'LISTING_ID': 12677097 "
-                           "}"
+                           '{'
+                           '"ANSWER": "That is a great choice, I will record to booking for you right away.", '
+                           '"USER_CONFIRMED_CHOICE": True, '
+                           '"LISTING_ID": 12677097 '
+                           '}'
                            "\n"
                            "\n"
                            "3. Sentence: {}\n"
@@ -164,7 +166,7 @@ def recommend_found_bookings(message_history, results, user_input):
         for product in results.docs:
             full_result_string += ' '.join(
                 [
-                    product.property_type, product.name, f", amenities are:", product.amenities, " Located in city:",
+                    product.price, f", description:", product.description, " Located in city:",
                     product.city,
                     'ID of this booking is:', product.id,
                     "\n\n\n"
@@ -174,6 +176,40 @@ def recommend_found_bookings(message_history, results, user_input):
         message_history.append(
             {"role": "user", "content": 'My accomodation booking options are: ' + full_result_string}
         )
+    else:
+        message_history.append(
+            {
+                'role': 'user',
+                'content': user_input
+            }
+        )
+
+    choices = openai.ChatCompletion.create(
+        model="gpt-3.5-turbo",
+        messages=message_history,
+        temperature=0.3
+    )['choices']
+
+    answer = choices[0]['message']['content'].strip(" \n")
+    message_history.append(
+        {'role': choices[0]['message']['role'], 'content': answer}
+    )
+
+    return message_history, answer
+
+
+def ask_about_general_requirements_response(message_history: list[dict], user_input: str):
+    if not message_history:
+        message_history = [
+            {
+                "role": "system",
+                "content": "You are the booking assistant answering touristy questions about "
+                           "the city user booked his booking at. "
+                           "Start conversation by asking User if he wants to ask for "
+                           "recommendations of what to do and see in City of his booking."
+            },
+            {"role": "user", "content": user_input}
+        ]
     else:
         message_history.append(
             {
@@ -198,17 +234,65 @@ def recommend_found_bookings(message_history, results, user_input):
 
 def get_location_recommendations_response(message_history: list[dict], user_input: str):
     if not message_history:
+        system_content = {
+            "role": "system",
+            "content": "You are a REST API SYSTEM connected to AI booking assistant,"
+                       "user tells you what city he got booking it and "
+                       "AI booking assistant is asking if he has any specific requirements for his booking. "
+                       "Output:\n"
+                       "{"
+                       "'ANSWER': 'What kind of accommodation you expect for your trip?'"
+                       "}\n"
+                       "You are connected to nice AI booking ASSISTANT. "
+                       "REST API SYSTEM has consistent output.\n"
+                       "REST API SYSTEM OUTPUTS JSON containing an ANSWER from AI booking ASSISTANT and.\n"
+                       "YOU DONT ASK ANY OTHER SPECIFIC QUESTIONS ABOUT THE BOOKING, "
+                       "YOU ALWAYS GIVE OUTPUT as JSON, see example bellow."
+                       "\n\n"
+                       "OUTPUT Format definition:"
+                       "{"
+                       "'ANSWER': 'Question if USER has a any additional asks for his booking.',"
+                       "}\n\n"
+                       "Examples:\n"
+                       "1. Sentence: I got trip in city City.\n"
+                       "Output:"
+                       "{"
+                       "'ANSWER': "
+                       "'Are there any specific requirements for the accomodation you have for your trip in City?',"
+                       "}"
+                       "\n"
+                       "\n"
+                       "2. Sentence: I love the sound of the third one.\n"
+                       "Output:"
+                       "{"
+                       "'ANSWER': "
+                       "'That is a great choice, do you have any additional preferences for your booking?', "
+                       "}"
+                       "\n"
+                       "\n"
+                       "3. Sentence: {}\n"
+                       "Output: "
+        }
+
         message_history = [
-            {
-                "role": "system",
-                "content": "You are the booking assistant answering touristy questions about "
-                           "the city user booked his booking at."
-            },
-            {"role": "user", "content": user_input}
+            system_content,
         ]
-    return openai.ChatCompletion.create(
+    message_history.append(
+        {
+            'role': 'user',
+            'content': user_input
+        }
+    )
+
+    choices = openai.ChatCompletion.create(
         model="gpt-3.5-turbo",
         messages=message_history,
         temperature=0.4
+    )['choices']
+
+    answer = choices[0]['message']['content'].strip(" \n")
+    message_history.append(
+        {'role': choices[0]['message']['role'], 'content': answer}
     )
 
+    return message_history, answer

@@ -14,7 +14,10 @@ from time import perf_counter
 from app.conversation_manager.context_memory import (
     get_response, get_booking_chain, openai_chat_completion_ner_response
 )
-from app.conversation_manager.conversation_contexts import recommend_booking, ask_for_booking_details
+from app.conversation_manager.conversation_contexts import (
+    recommend_booking, ask_for_booking_details, get_location_recommendations_response,
+    ask_about_general_requirements_response
+)
 from app.pydantic_models import TextItem
 
 from app.data.data_loaders import get_room_dataframe
@@ -148,6 +151,7 @@ def recommend(user_input: TextItem):
                               f'&listing_id={entity_dict["LISTING_ID"]}' \
                               '&guest_message=URL%20Provided%20by%20Tripath'
                 answer = answer + f' The link for final confirmation for your booking is: {booking_url}.'
+                app.booking_demo_history = []
         else:
             logging.warning('asking for entities')
             entity_dict_string = openai_chat_completion_ner_response(user_input.text)
@@ -163,11 +167,8 @@ def recommend(user_input: TextItem):
                     BOOKING_REQUEST[key] = entity_dict[key]
             logging.warning(BOOKING_REQUEST)
             if len(list(BOOKING_REQUEST)) == 6:
-                app.booking_demo_history, answer, app.interaction_count = recommend_booking(
-                    [],
-                    user_input.text, app.interaction_count, BOOKING_CHAIN, BOOKING_REQUEST,
-                    REDIS_CONNECTOR,
-                    city_code=CITY_MAPPING.get(BOOKING_REQUEST['CITY'].title())
+                booking_demo_history, answer = get_location_recommendations_response(
+                    [], ' I got a booking in city ' + BOOKING_REQUEST['CITY'].title()
                 )
                 logging.warning(answer)
                 try:
@@ -182,20 +183,6 @@ def recommend(user_input: TextItem):
                 else:
                     answer = answer.split('{', 1)[0].strip()
 
-                if entity_dict.get('USER_CONFIRMED_CHOICE'):
-                    BOOKINGS_CACHE['id'] = entity_dict['LISTING_ID']
-                    BOOKINGS_CACHE['city'] = BOOKING_REQUEST['CITY']
-                    BOOKINGS_CACHE['name'] = BOOKING_REQUEST['FULL_NAME']
-                    BOOKINGS_CACHE['dates:'] = BOOKING_REQUEST['START_DATE'] + '-' + BOOKING_REQUEST['END_DATE']
-                    booking_url = 'https://book.tripath.es/instance/' \
-                                  f'?check_in={BOOKING_REQUEST["START_DATE"]}' \
-                                  f'&check_out={BOOKING_REQUEST["END_DATE"]}' \
-                                  f'&guest={BOOKING_REQUEST["GUEST_COUNT"]}&' \
-                                  f'adult_guest={BOOKING_REQUEST["GUEST_COUNT"]}&child_guest=0' \
-                                  '&extra_options%5B0%5D=Utilities%7C50%7Cper_night' \
-                                  f'&listing_id={entity_dict["LISTING_ID"]}' \
-                                  '&guest_message=URL%20Provided%20by%20Tripath'
-                    answer += f' The link for final confirmation for your booking is: {booking_url}.'
             else:
                 answer, app.booking_demo_history = ask_for_booking_details(
                     app.booking_demo_history, user_input.text, BOOKING_REQUEST
@@ -204,7 +191,19 @@ def recommend(user_input: TextItem):
                 logging.warning(app.booking_demo_history)
 
     else:
-        answer = 'Your apartment was booked already. Your listing id is: ' + str(BOOKINGS_CACHE)
+        if not app.booking_demo_history:
+            overview = 'Your apartment was booked already. Your listing overview: ' + str(BOOKINGS_CACHE) + '\n\n'
+            app.booking_demo_history, answer = ask_about_general_requirements_response(
+                app.booking_demo_history, 'I booked an accomodation in city: ' + BOOKING_REQUEST['CITY']
+            )
+        else:
+            overview = None
+            app.booking_demo_history, answer = ask_about_general_requirements_response(
+                app.booking_demo_history, user_input.text
+            )
+
+        if overview:
+            answer = overview + answer
 
     return {
         'output': answer

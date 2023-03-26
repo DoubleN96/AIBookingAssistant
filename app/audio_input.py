@@ -1,7 +1,6 @@
 import gradio as gr
 import openai
 from pathlib import Path
-import os
 
 # openai.api_key = os.environ.get('OPEN_API_KEY')
 openai.api_key = "sk-"
@@ -19,6 +18,7 @@ def transcribe(audio):
     print(transcript)
 
     return transcript["text"]
+
 
 demo = gr.Interface(fn=transcribe, inputs=gr.Audio(source="microphone", type="filepath"), outputs="text")
 

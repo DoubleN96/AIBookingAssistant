@@ -4,7 +4,7 @@ import pandas as pd
 from sentence_transformers import SentenceTransformer
 
 model = SentenceTransformer(
-    'sentence-transformers/all-distilroberta-v1', cache_folder='/home/chatbot_fastapi/app/data/', device='cuda:0'
+    'sentence-transformers/all-distilroberta-v1', cache_folder='/home/chatbot_fastapi/', device='cuda:0'
 )
 
 MAX_TEXT_LENGTH = 400
@@ -20,7 +20,7 @@ def get_data_vectors(room_data: pd.DataFrame):
     rooms_metadata = room_data.to_dict(orient='index')
     item_keywords = [
         ', '.join(auto_truncate(rooms_metadata[i][key]) for key in [
-            'name', 'host_location', 'neighbourhood', 'property_type', 'amenities', 'price'
+            'city', 'description', 'price'
             ]
         )
         for i in rooms_metadata.keys()
