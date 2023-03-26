@@ -2,7 +2,8 @@ import os
 import re
 import json
 import logging
-import numpy as np
+
+from ast import literal_eval
 
 from fastapi import FastAPI, HTTPException, Request, status
 from fastapi.exceptions import RequestValidationError
@@ -11,13 +12,15 @@ from fastapi.responses import JSONResponse
 from time import perf_counter
 
 
-from app.conversation_manager.context_memory import get_response, get_booking_chain, booking_interact, booking_get_requirement_info
+from app.conversation_manager.context_memory import (
+    get_response, get_booking_chain, openai_chat_completion_ner_response
+)
+from app.conversation_manager.conversation_contexts import recommend_booking, ask_for_booking_details
 from app.pydantic_models import TextItem
 
 from app.data.data_loaders import get_room_dataframe
 from app.vectorizers.sentence_transformer import get_data_vectors, NUMBER_PRODUCTS
-from app.vectorizers.sentence_transformer import model as vectorizer
-from app.redis_manager.redis_connector import get_redis_connector, create_flat_index, get_booking_query
+from app.redis_manager.redis_connector import get_redis_connector, create_flat_index, load_vectors
 
 
 BOOKING_URL = 'https://book.tripath.es/instance/' \
@@ -40,6 +43,7 @@ logging.info('☺ ☺ ☺ waiting for input ☺ ☺ ☺')
 
 BOOKINGS_CACHE = {}
 BOOKING_REQUEST = {}
+app.booking_demo_history = []
 app.interaction_count = 0
 
 DATA = get_room_dataframe()
@@ -54,6 +58,9 @@ create_flat_index(
     NUMBER_PRODUCTS,
     768,
     'COSINE'
+)
+load_vectors(
+    REDIS_CONNECTOR, DATA.head(NUMBER_PRODUCTS).to_dict(orient='index'), DATA_VECTORS, 'item_keyword_vector'
 )
 
 BOOKING_CHAIN = get_booking_chain()
@@ -109,59 +116,69 @@ def recommend(user_input: TextItem):
     logging.warning(
         [BOOKINGS_CACHE, BOOKING_REQUEST]
     )
+    confirmed = False
     if not BOOKINGS_CACHE:
         if all(required in BOOKING_REQUEST for required in [
-            'BOOKING_START', 'BOOKING_END', 'CITY', 'BUDGET', 'GUEST_COUNT', 'FULL_NAME'
+            'FULL_NAME', 'START_DATE', 'END_DATE', 'CITY', 'BUDGET', 'GUEST_COUNT'
         ]):
-            app.interaction_count += + 1
-            if app.interaction_count == 1:
-                # Run the chain only specifying the input variable.
-                keywords = BOOKING_CHAIN.run(
-                    user_input.text + ', these are reservation specification: ' + str(BOOKING_REQUEST)
-                )
-
-                top_k = 3
-                # vectorize the query
-                query_vector = vectorizer.encode(keywords).astype(np.float32).tobytes()
-                params_dict = {"vec_param": query_vector}
-
-                # Execute the query
-                results = REDIS_CONNECTOR.ft().search(get_booking_query(top_k), query_params=params_dict)
-            else:
-                results = {}
-
-            agent, answer = booking_interact(
-                results, user_input.text + ', specification of booking requirements: ' + str(BOOKING_REQUEST)
+            app.booking_demo_history, answer, app.interaction_count, confirmed = recommend_booking(
+                app.booking_demo_history,
+                user_input.text, app.interaction_count, BOOKING_CHAIN, BOOKING_REQUEST,
+                REDIS_CONNECTOR
             )
+            logging.warning(user_input.text)
             logging.warning(answer)
+            logging.warning(app.booking_demo_history)
             try:
                 json_entities_string = re.findall(r'{.+}', answer, flags=re.MULTILINE | re.DOTALL)[0]
                 answer = answer.split('{')[0]
-            except Exception:
+            except Exception as e:
                 json_entities_string = '{}'
 
-            entity_dict = json.loads(json_entities_string)
+            entity_dict = literal_eval(json_entities_string)
             logging.warning(entity_dict)
 
             if entity_dict.get('BOOKING_CONFIRMED'):
                 BOOKINGS_CACHE['id'] = entity_dict
         else:
-            logging.warning('asking for info')
-            agent, answer = booking_get_requirement_info(user_input.text, BOOKING_REQUEST)
-            logging.warning(answer)
-            try:
-                json_entities_string = re.findall('{.+}', answer, flags=re.MULTILINE | re.DOTALL)[0]
-                answer = answer.split('{')[0]
-            except Exception:
-                json_entities_string = '{}'
+            logging.warning('asking for entities')
+            entity_dict_string = openai_chat_completion_ner_response(user_input.text)
+            if entity_dict_string:
+                entity_dict = literal_eval(entity_dict_string)
+            else:
+                entity_dict = []
 
-            entity_dict = json.loads(json_entities_string)
             logging.warning(entity_dict)
 
             for key in entity_dict:
                 if entity_dict[key]:
-                    if entity_dict[key].strip('_'):
-                        BOOKING_REQUEST[key] = entity_dict[key]
+                    BOOKING_REQUEST[key] = entity_dict[key]
+            logging.warning(BOOKING_REQUEST)
+            if len(list(BOOKING_REQUEST)) == 6:
+                app.booking_demo_history, answer, app.interaction_count, confirmed = recommend_booking(
+                    [],
+                    user_input.text, app.interaction_count, BOOKING_CHAIN, BOOKING_REQUEST,
+                    REDIS_CONNECTOR
+                )
+                logging.warning(answer)
+                try:
+                    json_entities_string = re.findall(r'{.+}', answer, flags=re.MULTILINE | re.DOTALL)[0]
+                    answer = answer.split('{')[0]
+                except Exception:
+                    json_entities_string = '{}'
+
+                entity_dict = json.loads(json_entities_string)
+                logging.warning(entity_dict)
+
+                if confirmed:
+                    BOOKINGS_CACHE['id'] = entity_dict
+            else:
+                answer, app.booking_demo_history = ask_for_booking_details(
+                    app.booking_demo_history, user_input.text, BOOKING_REQUEST
+                )
+                logging.warning(answer)
+                logging.warning(app.booking_demo_history)
+
     else:
         answer = 'Your apartment was booked already.'
 

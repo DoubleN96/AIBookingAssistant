@@ -54,7 +54,7 @@ def load_vectors(client, product_metadata, vector_dict, vector_field_name):
     p = client.pipeline(transaction=False)
     for index in product_metadata.keys():
         # hash key
-        key = 'product_ID: ' + str(product_metadata[index]['listing_id'])
+        key = 'listing_id: ' + str(product_metadata[index]['listing_id'])
 
         # hash values
         item_metadata = product_metadata[index]
