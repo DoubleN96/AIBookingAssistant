@@ -18,3 +18,9 @@ class TextItem(BaseModel):
             {"role": "user", "content": "Personally I prefer ..."}
         ]
     )
+
+
+class BookingItem(BaseModel):
+    text: str = Field(
+        example='I want to make a booking.'
+    )

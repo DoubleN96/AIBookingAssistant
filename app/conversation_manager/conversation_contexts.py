@@ -82,6 +82,10 @@ def ask_for_booking_details(message_history: list[dict], user_input: str, bookin
             system_content,
             {"role": "user", "content": user_input}
         ]
+    else:
+        message_history.append(
+            {"role": "user", "content": user_input}
+        )
 
     choices = openai.ChatCompletion.create(
         model="gpt-3.5-turbo",

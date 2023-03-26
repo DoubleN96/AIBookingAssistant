@@ -18,7 +18,7 @@ from app.conversation_manager.conversation_contexts import (
     recommend_booking, ask_for_booking_details, get_location_recommendations_response,
     ask_about_general_requirements_response
 )
-from app.pydantic_models import TextItem
+from app.pydantic_models import TextItem, BookingItem
 
 from app.data.data_loaders import get_room_dataframe
 from app.vectorizers.sentence_transformer import get_data_vectors
@@ -107,7 +107,7 @@ def chat(user_input: TextItem):
     name='Room recommendation.',
     description='Servicing chatting api.',
 )
-def recommend(user_input: TextItem):
+def recommend(user_input: BookingItem):
     logging.warning(
         [BOOKINGS_CACHE, BOOKING_REQUEST]
     )
