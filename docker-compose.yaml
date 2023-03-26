@@ -12,7 +12,7 @@ services:
           context: .
           dockerfile: Dockerfile.api
         volumes: *volumes
-        # runtime: nvidia
+        runtime: nvidia
         networks:
           - internal
           - shared

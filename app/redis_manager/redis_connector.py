@@ -3,9 +3,8 @@ import logging
 import numpy as np
 import redis
 
-from redis.commands.search.field import VectorField
-from redis.commands.search.field import TextField
-from redis.commands.search.query import Query
+from redis.commands.search.field import TextField, VectorField, NumericField
+from redis.commands.search.query import Query, NumericFilter
 
 
 def get_redis_connector(host='localhost', port=6379, password=''):
@@ -20,13 +19,23 @@ def get_redis_connector(host='localhost', port=6379, password=''):
         logging.error(e, exc_info=True)
 
 
-def get_booking_query(topK):
+def get_booking_query(topK, city_code):
     logging.warning('Querying redis...')
-    return Query(
-        f'*=>[KNN {topK} @item_keyword_vector $vec_param AS vector_score]'
-    ).sort_by('vector_score').paging(0, topK).return_fields(
-        'vector_score', 'property_type', 'name', 'amenities', 'city'
-    ).dialect(2)
+    if city_code:
+        city_code = int(city_code)
+        return Query(
+            f'*=>[KNN {topK} @item_keyword_vector $vec_param AS vector_score]'
+        ).add_filter(
+            NumericFilter('city_id', city_code, city_code),
+        ).sort_by('vector_score').paging(0, topK).return_fields(
+            'vector_score', 'property_type', 'name', 'amenities', 'city', 'city_id'
+        ).dialect(2)
+    else:
+        return Query(
+            f'*=>[KNN {topK} @item_keyword_vector $vec_param AS vector_score]'
+        ).sort_by('vector_score').paging(0, topK).return_fields(
+            'vector_score', 'property_type', 'name', 'amenities', 'city', 'city_id'
+        ).dialect(2)
 
 
 def create_flat_index(redis_conn, vector_field_name, number_of_vectors, vector_dimensions=512, distance_metric='L2'):
@@ -45,7 +54,8 @@ def create_flat_index(redis_conn, vector_field_name, number_of_vectors, vector_d
         TextField("property_type", as_name='property_type'),
         TextField("name", as_name='name'),
         TextField("amenities", as_name='amenities'),
-        TextField("city", as_name='city')
+        TextField("city", as_name='city'),
+        NumericField("city_id", as_name='city_id')
     ])
 
 
@@ -65,3 +75,4 @@ def load_vectors(client, product_metadata, vector_dict, vector_field_name):
         p.hset(key, mapping=item_metadata)
 
     p.execute()
+
