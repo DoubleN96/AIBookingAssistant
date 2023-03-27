@@ -31,3 +31,10 @@ We decided to use OpenAI Whisper because it is a powerful natural language proce
   
 participating  
 [chatgpt-api-and-whisper-api-global-hackathon](https://lablab.ai/event/chatgpt-api-and-whisper-api-global-hackathon)  
+
+## Team
+[Erik Citterberg](https://github.com/erik-citterberg)  
+[Marcelino Ribon](https://lablab.ai/u/@Marcelinoribon)  
+[Gabriel Kunzer](https://github.com/johnnyknoxville1337)  
+
+
