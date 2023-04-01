@@ -86,13 +86,6 @@ We decided to use OpenAI Whisper because it is a powerful natural language proce
 $ git clone https://github.com/sandramsc/AI-Hotel-Booking-Assistant.git
 ```
 
-**Step #2**
-
-- Install dependencies in both frontend and backend folders: `npm i` OR `yarn`
-
-- To start the webapp, run: `npm start` OR `yarn start`
-
-
 ## Authors
 
 | Name            | Link                                   |
