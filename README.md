@@ -1,7 +1,7 @@
 <!-- PROJECT TITLE -->
   <h1 align="center">AI Hotel Booking Assistant</h1>
  <h2 2 align="center">
-    Simplifying the renting expereince
+    Simplifying the renting experience
     <br />
     </h2>
 
