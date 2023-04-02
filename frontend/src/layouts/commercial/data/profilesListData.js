@@ -24,7 +24,7 @@ const profilesListData = [
   {
     image: kal,
     name: "Sophie B.",
-    description: "Hi! I need more information..",
+    description: "Hi! my bathroom sink is leaking.  Can you send someone to..",
     action: {
       type: "internal",
       route: "/pages/profile/profile-overview",
@@ -35,7 +35,7 @@ const profilesListData = [
   {
     image: marie,
     name: "Anne Marie",
-    description: "Awesome work, can you..",
+    description: "The air conditioning unit isn't working properly. When can a techni..",
     action: {
       type: "internal",
       route: "/pages/profile/profile-overview",
@@ -46,7 +46,7 @@ const profilesListData = [
   {
     image: ivana,
     name: "Ivanna",
-    description: "About files I can..",
+    description: "I noticed some mold in the corner of the bathroom. Could you send someone to fix it?",
     action: {
       type: "internal",
       route: "/pages/profile/profile-overview",
@@ -57,7 +57,7 @@ const profilesListData = [
   {
     image: team4,
     name: "Peterson",
-    description: "Have a great afternoon..",
+    description: "Hello!!! The front door lock is broken, for 3hrs now, when can you send a lock smith?",
     action: {
       type: "internal",
       route: "/pages/profile/profile-overview",
