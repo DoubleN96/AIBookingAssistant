@@ -1,0 +1,13 @@
+{
+    "version": 2,
+    "builds": [
+      {
+        "src": "/app/audio_input.py",
+        "use": "@vercel/python",
+        "config": {
+          "requirements": "requirements.txt"
+        }
+      }
+    ]
+  }
+  

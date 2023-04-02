@@ -46,4 +46,3 @@ if prev_qry != user_input:
             {"role": "assistant", "content": server_response},
         ]
         st.session_state['history'] = st.session_state['history'][5:]
-

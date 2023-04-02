@@ -28,3 +28,4 @@ def get_data_vectors(room_data: pd.DataFrame):
         for i in rooms_metadata.keys()
     ]
     return [model.encode(sentence) for sentence in item_keywords]
+

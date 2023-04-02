@@ -4,9 +4,15 @@ import logging
 
 from ast import literal_eval
 
-from fastapi import FastAPI, HTTPException, Request, status
+from fastapi import FastAPI, HTTPException, Request, status, Form
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
+
+from twilio.twiml.messaging_response import MessagingResponse
+from typing import Tuple
+import requests
+import speech_recognition as sr
+
 
 from time import perf_counter
 
@@ -45,7 +51,7 @@ DATA, CITY_MAPPING = get_room_dataframe()
 DATA_VECTORS = get_data_vectors(DATA)
 REDIS_CONNECTOR = get_redis_connector('redis')
 
-REDIS_CONNECTOR.flushall()
+REDIS_CONNECTOR.flushall()# Path: app/whatsapp.
 
 create_flat_index(
     REDIS_CONNECTOR,
@@ -107,6 +113,46 @@ def chat(user_input: TextItem):
     name='Room recommendation.',
     description='Servicing chatting api.',
 )
+
+@app.post("/whatsapp")
+async def whatsapp_webhook(request: Request):
+    r = MessagingResponse()
+    media = request.form.get("MediaUrl0")
+    msg_type = request.form.get("MediaContentType0")
+
+    if msg_type == "audio/ogg; codecs=opus" and media:
+        response = await process_voice_input(media)
+        r.message(response)
+    else:
+        r.message("Please send a voice message.")
+    
+    return str(r)
+
+async def process_voice_input(url: str) -> str:
+    # Download the voice message
+    r = requests.get(url)
+    with open('voice_message.oga', 'wb') as f:
+        f.write(r.content)
+
+    # Convert the voice message to WAV
+    # You'll need to use 'ffmpeg' or a similar tool to convert the file
+
+    # Process the WAV file with SpeechRecognition
+    recognizer = sr.Recognizer()
+    with sr.AudioFile('voice_message_converted.wav') as source:
+        audio = recognizer.record(source)
+    try:
+        text = recognizer.recognize_google(audio)
+    except sr.UnknownValueError:
+        return "Could not understand your voice message."
+    except sr.RequestError:
+        return "An error occurred while processing your voice message."
+
+    # Send the transcribed text to the FastAPI backend
+    response = requests.post('http://chatbot_fastapi:5300/endpoint', json={"text": text})
+    return response.text
+
+
 def recommend(user_input: BookingItem):
     logging.warning(
         [BOOKINGS_CACHE, BOOKING_REQUEST]

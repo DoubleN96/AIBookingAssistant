@@ -10,7 +10,7 @@ from langchain.chains import LLMChain
 from app.conversation_manager.prompt import ASSISTANT_PROMPT_1, SYSTEM_PROMPT, USER_PROMPT_1, GUIDELINES_PROMPT
 
 MODEL = 'gpt-3.5-turbo'
-openai.api_key = os.environ.get('OPEN_API_KEY', "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")
+openai.api_key = os.environ.get('OPEN_API_KEY', "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")
 
 
 llm = OpenAI(

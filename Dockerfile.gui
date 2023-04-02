@@ -24,7 +24,7 @@ ENV USER=assistant
 RUN adduser --uid 73826 --no-create-home --ingroup root --disabled-password --gecos "" ${USER} \
   && chown -R ${USER}:root /home/chatbot_fastapi \
   && chmod -R 770 /home/chatbot_fastapi
-USER ${USER}
+USER ${USER}equirements.gui.txt
 
 RUN python -m pip install --upgrade pip
 RUN pip install --no-cache-dir -r /home/chatbot_fastapi/requirements.gui.txt

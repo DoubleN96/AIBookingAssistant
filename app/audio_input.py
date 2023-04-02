@@ -7,7 +7,7 @@ from pathlib import Path
 
 # openai.api_key = os.environ.get('OPEN_API_KEY')
 
-OPEN_API_KEY = os.environ.get('OPEN_API_KEY', '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')
+OPEN_API_KEY = os.environ.get('OPEN_API_KEY', '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')
 openai.api_key = OPEN_API_KEY
 
 
@@ -28,8 +28,7 @@ def transcribe(audio):
 
     return response.json()['output']
 
-
 demo = gr.Interface(fn=transcribe, inputs=gr.Audio(source="microphone", type="filepath"), outputs="text")
 
-demo.launch()
-#demo.launch(share=True)
+# demo.launch()
+demo.launch(share=True)

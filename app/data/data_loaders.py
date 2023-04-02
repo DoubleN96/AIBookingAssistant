@@ -20,4 +20,3 @@ def get_room_dataframe(source_file='/home/chatbot_fastapi/app/data/tripath.csv')
             'listing_id', 'description', 'city', 'city_id', 'status', 'CHECK-IN', 'CHECK-OUT', 'price'
         ]
     ], city_mapping
-
