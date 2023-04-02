@@ -1,7 +1,6 @@
 // Soft UI Dashboard React layouts
 import Dashboard from "layouts/dashboard";
 import Maintanence from "layouts/maintanence";
-import Billing from "layouts/billing";
 import Commercial from "layouts/commercial";
 
 // Soft UI Dashboard React icons
@@ -28,15 +27,6 @@ const routes = [
     route: "/maintanence",
     icon: <CustomerSupport size="12px" />,
     component: <Maintanence />,
-    noCollapse: true,
-  },
-  {
-    type: "collapse",
-    name: "Billing",
-    key: "billing",
-    route: "/billing",
-    icon: <CreditCard size="12px" />,
-    component: <Billing />,
     noCollapse: true,
   },
   { type: "title", title: "Account Pages", key: "account-pages" },

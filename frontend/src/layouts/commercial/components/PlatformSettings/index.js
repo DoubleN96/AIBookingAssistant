@@ -35,7 +35,7 @@ function PlatformSettings() {
           </SoftBox>
           <SoftBox width="80%" ml={2}>
             <SoftTypography variant="button" fontWeight="regular" color="text">
-              Email me when someone follows me
+              Email me when a maintenance request is submitted
             </SoftTypography>
           </SoftBox>
         </SoftBox>
@@ -45,7 +45,7 @@ function PlatformSettings() {
           </SoftBox>
           <SoftBox width="80%" ml={2}>
             <SoftTypography variant="button" fontWeight="regular" color="text">
-              Email me when someone answers on my post
+              Email me when a tenants lease is about to expire
             </SoftTypography>
           </SoftBox>
         </SoftBox>
@@ -55,7 +55,7 @@ function PlatformSettings() {
           </SoftBox>
           <SoftBox width="80%" ml={2}>
             <SoftTypography variant="button" fontWeight="regular" color="text">
-              Email me when someone mentions me
+              Email me when someone pays rent
             </SoftTypography>
           </SoftBox>
         </SoftBox>
