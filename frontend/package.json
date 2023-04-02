@@ -1,19 +1,11 @@
 {
-  "name": "soft-ui-dashboard-react",
+  "name": "#",
   "version": "4.0.0",
-  "author": "Creative Tim",
-  "license": "SEE LICENSE IN <https://www.creative-tim.com/license>",
-  "description": "ReactJS version of Soft UI Dashboard by Creative Tim",
-  "bugs": {
-    "url": "https://github.com/creativetimofficial/soft-ui-dashboard-react/issues"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/creativetimofficial/soft-ui-dashboard-react.git"
-  },
+  "author": "#",
+  "license": "#",
   "engines": {
-    "node": ">=16",
-    "npm": "8.19.3"
+    "node": "18",
+    "npm": "9.2.0"
   },
   "dependencies": {
     "@babel/core": "^7.21.4",
@@ -44,7 +36,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "DISABLE_ESLINT_PLUGIN=true >react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "install:clean": "rm -rf node_modules/ && rm -rf package-lock.json && npm install && npm start",
