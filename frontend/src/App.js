@@ -43,9 +43,6 @@ import routes from "routes";
 // Soft UI Dashboard React contexts
 import { useSoftUIController, setMiniSidenav, setOpenConfigurator } from "context";
 
-// Images
-import brand from "assets/images/logo-ct.png";
-
 export default function App() {
   const [controller, dispatch] = useSoftUIController();
   const { miniSidenav, direction, layout, openConfigurator, sidenavColor } = controller;
@@ -126,8 +123,7 @@ export default function App() {
         <>
           <Sidenav
             color={sidenavColor}
-            brand={brand}
-            brandName="Room Rental AI Assistant"
+            brandName="ChattyRental"
             routes={routes}
             onMouseEnter={handleOnMouseEnter}
             onMouseLeave={handleOnMouseLeave}

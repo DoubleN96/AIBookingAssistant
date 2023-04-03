@@ -45,65 +45,58 @@ function Overview() {
           <Grid container spacing={3}>
             <Grid item xs={12} sm={6} xl={3}>
               <StatsCard
-                title={{ text: "today's money" }}
-                count="$53,000"
+                title={{ text: "Booking Link via Chat" }}
+                count="93 clicks"
                 percentage={{ color: "success", text: "+55%" }}
                 icon={{ color: "info", component: "paid" }}
               />
             </Grid>
             <Grid item xs={12} sm={6} xl={3}>
               <StatsCard
-                title={{ text: "today's users" }}
-                count="2,300"
+                title={{ text: "Property visits" }}
+                count="47"
                 percentage={{ color: "success", text: "+3%" }}
                 icon={{ color: "info", component: "public" }}
               />
             </Grid>
             <Grid item xs={12} sm={6} xl={3}>
               <StatsCard
-                title={{ text: "new clients" }}
-                count="+3,462"
+                title={{ text: "Maintenance Requests" }}
+                count="14"
                 percentage={{ color: "error", text: "-2%" }}
                 icon={{ color: "info", component: "emoji_events" }}
               />
             </Grid>
             <Grid item xs={12} sm={6} xl={3}>
               <StatsCard
-                title={{ text: "sales" }}
-                count="$103,430"
+                title={{ text: "Rooms Occupied" }}
+                count="106"
                 percentage={{ color: "success", text: "+5%" }}
-                icon={{
-                  color: "info",
-                  component: "shopping_cart",
-                }}
+                icon={{ color: "info", component: "shopping_cart" }}
               />
             </Grid>
           </Grid>
         </SoftBox>
-        <SoftBox mb={3}>
-    
-        <Grid item xs={12} sm={6} xl={12}>
-             
-             <GradientLineChart
-                 title="Sales Overview"
-                 description={
-                   <SoftBox display="flex" alignItems="center">
-                     <SoftBox fontSize={size.lg} color="success" mb={0.3} mr={0.5} lineHeight={0}>
-                       <Icon className="font-bold">arrow_upward</Icon>
-                     </SoftBox>
-                     <SoftTypography variant="button" color="text" fontWeight="medium">
-                       4% more{" "}
-                       <SoftTypography variant="button" color="text" fontWeight="regular">
-                         in 2021
-                       </SoftTypography>
-                     </SoftTypography>
-                   </SoftBox>
-                 }
-                 height="20.25rem"
-                 chart={gradientLineChartData}
-               />
-           </Grid>
-        </SoftBox>
+        <Grid item xs={12} lg={12}>
+              <GradientLineChart
+                title="ChattyRental Overview"
+                description={
+                  <SoftBox display="flex" alignItems="center">
+                    <SoftBox fontSize={size.lg} color="success" mb={0.3} mr={0.5} lineHeight={0}>
+                      <Icon className="font-bold">arrow_upward</Icon>
+                    </SoftBox>
+                    <SoftTypography variant="button" color="text" fontWeight="medium">
+                      4% more{" "}
+                      <SoftTypography variant="button" color="text" fontWeight="regular">
+                        in 2023
+                      </SoftTypography>
+                    </SoftTypography>
+                  </SoftBox>
+                }
+                height="20.25rem"
+                chart={gradientLineChartData}
+              />
+            </Grid>
       </SoftBox>
       <Footer />
     </DashboardLayout>
@@ -111,7 +104,3 @@ function Overview() {
 }
 
 export default Overview;
-
-
-
-

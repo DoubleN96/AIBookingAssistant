@@ -29,7 +29,7 @@ const routes = [
     component: <Maintanence />,
     noCollapse: true,
   },
-  { type: "title", title: "Account Pages", key: "account-pages" },
+  { type: "title", title: "Chat & KPI", key: "account-pages" },
   {
     type: "collapse",
     name: "Commercial",
