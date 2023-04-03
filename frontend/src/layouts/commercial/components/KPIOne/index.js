@@ -1,4 +1,4 @@
-import reportsBarChartData from "layouts/dashboard/data/reportsBarChartData";
+
 import Grid from "@mui/material/Grid";
 import Icon from "@mui/material/Icon";
 // Soft UI Dashboard React base styles

@@ -60,7 +60,7 @@ function Header() {
         display="flex"
         alignItems="center"
         position="relative"
-        minHeight="18.75rem"
+        minHeight="14.25rem"
         borderRadius="xl"
         sx={{
           backgroundImage: ({ functions: { rgba, linearGradient }, palette: { gradients } }) =>
@@ -101,7 +101,7 @@ function Header() {
                 Alex Thompson
               </SoftTypography>
               <SoftTypography variant="button" color="text" fontWeight="medium">
-                Maintenance Coordinator at Room Rental AI Assistant
+                Maintenance Coordinator at ChattyRental
               </SoftTypography>
             </SoftBox>
           </Grid>

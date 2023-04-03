@@ -25,7 +25,7 @@ function PlatformSettings() {
           platform settings
         </SoftTypography>
       </SoftBox>
-      <SoftBox pt={1.5} pb={2} px={2} lineHeight={1.25}>
+      <SoftBox pt={3.5} pb={2} px={2} lineHeight={1.25}>
         <SoftTypography variant="caption" fontWeight="bold" color="text" textTransform="uppercase">
           account
         </SoftTypography>
@@ -36,6 +36,17 @@ function PlatformSettings() {
           <SoftBox width="80%" ml={2}>
             <SoftTypography variant="button" fontWeight="regular" color="text">
               Email me when a maintenance request is submitted
+            </SoftTypography>
+          </SoftBox>
+        </SoftBox>
+        
+        <SoftBox display="flex" py={1} mb={0.25}>
+          <SoftBox mt={0.25}>
+            <Switch checked={answersPost} onChange={() => setAnswersPost(!answersPost)} />
+          </SoftBox>
+          <SoftBox width="80%" ml={2}>
+            <SoftTypography variant="button" fontWeight="regular" color="text">
+              Email me when a tenant inquires via chatbot
             </SoftTypography>
           </SoftBox>
         </SoftBox>

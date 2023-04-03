@@ -111,14 +111,8 @@ function DashboardNavbar({ absolute, light, isMini }) {
     >
       <NotificationItem
         image={<img src={team2} alt="person" />}
-        title={["New message", "from Laur"]}
+        title={["New message", "from New Tenant"]}
         date="13 minutes ago"
-        onClick={handleCloseMenu}
-      />
-      <NotificationItem
-        image={<img src={logoSpotify} alt="person" />}
-        title={["New album", "by Travis Scott"]}
-        date="1 day"
         onClick={handleCloseMenu}
       />
       <NotificationItem
@@ -128,7 +122,7 @@ function DashboardNavbar({ absolute, light, isMini }) {
             payment
           </Icon>
         }
-        title={["", "Payment successfully completed"]}
+        title={["", "3 New Maintenance Requests"]}
         date="2 days"
         onClick={handleCloseMenu}
       />

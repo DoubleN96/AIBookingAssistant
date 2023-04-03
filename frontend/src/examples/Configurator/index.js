@@ -1,18 +1,3 @@
-/**
-=========================================================
-* Soft UI Dashboard React - v4.0.0
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/soft-ui-dashboard-react
-* Copyright 2022 Creative Tim (https://www.creative-tim.com)
-
-Coded by www.creative-tim.com
-
- =========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-*/
-
 import { useState, useEffect } from "react";
 
 // @mui material components
@@ -95,9 +80,9 @@ function Configurator() {
         px={3}
       >
         <SoftBox>
-          <SoftTypography variant="h5">Soft UI Configurator</SoftTypography>
+          <SoftTypography variant="h5">ChattyRental</SoftTypography>
           <SoftTypography variant="body2" color="text">
-            See our dashboard options.
+            Simpliying the rental expereince.
           </SoftTypography>
         </SoftBox>
 
@@ -120,45 +105,15 @@ function Configurator() {
 
       <SoftBox pt={1.25} pb={3} px={3}>
         <SoftBox>
-          <SoftTypography variant="h6">Sidenav Colors</SoftTypography>
-
+          <SoftTypography variant="h6">Who We Are</SoftTypography>
           <SoftBox mb={0.5}>
-            {sidenavColors.map((color) => (
-              <IconButton
-                key={color}
-                sx={({ borders: { borderWidth }, palette: { white, dark }, transitions }) => ({
-                  width: "24px",
-                  height: "24px",
-                  padding: 0,
-                  border: `${borderWidth[1]} solid ${white.main}`,
-                  borderColor: sidenavColor === color && dark.main,
-                  transition: transitions.create("border-color", {
-                    easing: transitions.easing.sharp,
-                    duration: transitions.duration.shorter,
-                  }),
-                  backgroundImage: ({ functions: { linearGradient }, palette: { gradients } }) =>
-                    linearGradient(gradients[color].main, gradients[color].state),
-
-                  "&:not(:last-child)": {
-                    mr: 1,
-                  },
-
-                  "&:hover, &:focus, &:active": {
-                    borderColor: dark.main,
-                  },
-                })}
-                onClick={() => setSidenavColor(dispatch, color)}
-              />
-            ))}
+          <SoftTypography variant="body2" color="text">
+            Add our Chatbot to your rental business.
+          </SoftTypography>
           </SoftBox>
         </SoftBox>
 
         <SoftBox mt={3} lineHeight={1}>
-          <SoftTypography variant="h6">Sidenav Type</SoftTypography>
-          <SoftTypography variant="button" color="text" fontWeight="regular">
-            Choose between 2 different sidenav types.
-          </SoftTypography>
-
           <SoftBox
             sx={{
               display: "flex",
@@ -176,7 +131,7 @@ function Configurator() {
                 ...sidenavTypeButtonsStyles,
               }}
             >
-              Transparent
+              Get Started
             </SoftButton>
             <SoftButton
               color="info"
@@ -186,14 +141,9 @@ function Configurator() {
               fullWidth
               sx={sidenavTypeButtonsStyles}
             >
-              White
+              Learn More
             </SoftButton>
           </SoftBox>
-        </SoftBox>
-        <SoftBox mt={3} mb={2} lineHeight={1}>
-          <SoftTypography variant="h6">Navbar Fixed</SoftTypography>
-
-          <Switch checked={fixedNavbar} onChange={handleFixedNavbar} />
         </SoftBox>
 
         <Divider />
@@ -202,50 +152,26 @@ function Configurator() {
           <SoftBox mb={2}>
             <SoftButton
               component={Link}
-              href="https://www.creative-tim.com/product/soft-ui-dashboard-react"
+              href="#"
               target="_blank"
               rel="noreferrer"
               color="dark"
               variant="gradient"
               fullWidth
             >
-              free download
+              Documentation
             </SoftButton>
           </SoftBox>
-          <SoftButton
-            component={Link}
-            href="https://www.creative-tim.com/learning-lab/react/quick-start/soft-ui-dashboard/"
-            target="_blank"
-            rel="noreferrer"
-            color="dark"
-            variant="outlined"
-            fullWidth
-          >
-            view documentation
-          </SoftButton>
-        </SoftBox>
-        <SoftBox display="flex" justifyContent="center">
-          <a
-            className="github-button"
-            href="https://github.com/creativetimofficial/soft-ui-dashboard-react"
-            data-icon="octicon-star"
-            data-size="large"
-            data-show-count="true"
-            aria-label="Star creativetimofficial/soft-ui-dashboard-react on GitHub"
-          >
-            Star
-          </a>
         </SoftBox>
         <SoftBox mt={3} textAlign="center">
           <SoftBox mb={0.5}>
             <SoftTypography variant="h6">Thank you for sharing!</SoftTypography>
           </SoftBox>
-
           <SoftBox display="flex" justifyContent="center">
             <SoftBox mr={1.5}>
               <SoftButton
                 component={Link}
-                href="//twitter.com/intent/tweet?text=Check%20Soft%20UI%20Dashboard%20React%20made%20by%20%40CreativeTim%20%23webdesign%20%23dashboard%20%23react%23mui&url=https%3A%2F%2Fwww.creative-tim.com%2Fproduct%2Fsoft-ui-dashboard-react"
+                href="#"
                 target="_blank"
                 rel="noreferrer"
                 color="dark"
@@ -254,16 +180,6 @@ function Configurator() {
                 &nbsp; Tweet
               </SoftButton>
             </SoftBox>
-            <SoftButton
-              component={Link}
-              href="https://www.facebook.com/sharer/sharer.php?u=https://www.creative-tim.com/product/soft-ui-dashboard-react"
-              target="_blank"
-              rel="noreferrer"
-              color="dark"
-            >
-              <FacebookIcon />
-              &nbsp; Share
-            </SoftButton>
           </SoftBox>
         </SoftBox>
       </SoftBox>

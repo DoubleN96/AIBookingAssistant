@@ -1,5 +1,8 @@
 <!-- PROJECT TITLE -->
-  <h1 align="center">AI Hotel Booking Assistant</h1>
+  <h1 align="center">ChattyRental</h1>
+  <div id="header" align="center">
+  <img src="https://drive.google.com/file/d/1mlWQs3eLJZ_F6RMnlBZzLLGzcZWGfmD4/view" width="250"/>
+</div>
  <h2 2 align="center">
     Simplifying the renting experience
     <br />
@@ -12,7 +15,7 @@ We designed an AI chatbot that can be added as a plugin in the website of a Hote
 ## Table of Contents
 
 <details>
-<summary>AI Hotel Booking Assistant</summary>
+<summary>ChattyRental</summary>
 
 - [Application Description](#application-description)
 - [Table of Contents](#table-of-contents)
@@ -34,7 +37,7 @@ We designed an AI chatbot that can be added as a plugin in the website of a Hote
 
 View the Demo [App](link)
 
-## AI Hotel Booking Assistant Server
+## ChattyRental Server
 
  [Server](link)
 
@@ -77,7 +80,7 @@ We decided to use OpenAI Whisper because it is a powerful natural language proce
 **Step #1** - Clone the project
 
 ```bash
-$ git clone https://github.com/sandramsc/AI-Hotel-Booking-Assistant.git
+$ git clone https://github.com/sandramsc/ChattyRental.git
 ```
 
 ## Authors
@@ -85,7 +88,7 @@ $ git clone https://github.com/sandramsc/AI-Hotel-Booking-Assistant.git
 | Name            | Link                                   |
 | --------------- | -------------------------------------- |
 | Erik Citterberg | https://github.com/erik-citterberg |
-| Sandra Ashipala | https://lablab.ai/u/@Marcelinoribon |
+| Sandra Ashipala | https://github.com/sandramsc |
 | Marcelino Ribon | https://lablab.ai/u/@Marcelinoribon |
 | Gabriel Kunzer | https://github.com/johnnyknoxville1337 |
 | NAME | https://github.com/LINK |
@@ -96,4 +99,4 @@ $ git clone https://github.com/sandramsc/AI-Hotel-Booking-Assistant.git
 
 ## License
 
-[![GitLicense](https://img.shields.io/badge/License-MIT-lime.svg)](https://github.com/sandramsc/AI-Hotel-Booking-Assistant/blob/master/LICENSE.md)
+[![GitLicense](https://img.shields.io/badge/License-MIT-lime.svg)](https://github.com/sandramsc/ChattyRental/blob/master/LICENSE.md)
