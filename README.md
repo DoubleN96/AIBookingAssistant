@@ -35,7 +35,7 @@ We designed an AI chatbot that can be added as a plugin in the website of a Hote
 
 ## Web App
 
-Demo [App](https://ai-booking-assistant.vercel.app/dashboard)
+[View Here](https://ai-booking-assistant.vercel.app/dashboard)
 
 ## ChattyRental Server
 
