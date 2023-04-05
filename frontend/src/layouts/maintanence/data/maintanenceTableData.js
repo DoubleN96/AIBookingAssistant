@@ -200,7 +200,7 @@ const maintanenceTableData = {
       title: <Title name="Fix broken window"  variant="caption"/>,
       issuer: <Issuer job="Leon Peters"/>,
       priority: (
-        <SoftBadge variant="gradient" badgeContent="secondary" color="info" size="xs" container />
+        <SoftBadge variant="gradient" badgeContent="medium" color="secondary" size="xs" container />
       ),
       property: <Property unit="Thiel Street 71101"/>,
       status: (
