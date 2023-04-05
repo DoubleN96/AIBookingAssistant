@@ -36,7 +36,6 @@ We designed an AI chatbot that can be added as a plugin in the website of a Hote
 
 [View the Dashboard Walkthrough](https://youtu.be/n41foi7docg)
 
-
 ## Screenshots
 ![pic_1](https://user-images.githubusercontent.com/19821445/229638515-b808329c-0c47-406b-8969-241209a57f0a.PNG)
 ![pic_2](https://user-images.githubusercontent.com/19821445/229638532-ae4d8a36-a8d1-477c-bb69-c2127dec520e.PNG)
