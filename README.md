@@ -1,7 +1,7 @@
 <!-- PROJECT TITLE -->
   <h1 align="center">ChattyRental</h1>
   <div id="header" align="center">
-  <img src="https://drive.google.com/file/d/1mlWQs3eLJZ_F6RMnlBZzLLGzcZWGfmD4/view" width="250"/>
+<img src="assets/images/logo-ct.png" width="250"/>
 </div>
  <h2 2 align="center">
     Simplifying the renting experience
