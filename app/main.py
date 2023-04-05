@@ -14,10 +14,17 @@ from time import perf_counter
 from app.conversation_manager.context_memory import (
     get_response, get_booking_chain, openai_chat_completion_ner_response
 )
-from app.conversation_manager.conversation_contexts import (
-    recommend_booking, ask_for_booking_details, get_location_recommendations_response,
-    ask_about_general_requirements_response
-)
+# from app.conversation_manager.conversation_contexts import (
+#     recommend_booking, ask_for_booking_details, get_location_recommendations_response,
+#     ask_about_general_requirements_response
+# )
+
+from app.conversation_manager.booking_recommend import recommend_booking
+from app.conversation_manager.booking_details import ask_for_booking_details
+from app.conversation_manager.recommend_found_bookings import recommend_found_bookings
+from app.conversation_manager.ask_general_requirements import ask_about_general_requirements_response
+from app.conversation_manager.get_location_recommendation import get_location_recommendations_response
+
 from app.pydantic_models import TextItem, BookingItem
 
 from app.data.data_loaders import get_room_dataframe
