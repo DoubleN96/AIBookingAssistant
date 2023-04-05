@@ -1,7 +1,6 @@
 <!-- PROJECT TITLE -->
-  <h1 align="center">ChattyRental</h1>
   <div id="header" align="center">
-  <img src="https://drive.google.com/file/d/1mlWQs3eLJZ_F6RMnlBZzLLGzcZWGfmD4/view" width="250"/>
+  <img src="https://user-images.githubusercontent.com/19821445/230167293-c516e09e-5630-4992-a9b7-80c3a72b6a77.png" width="550" width="250"/>
 </div>
  <h2 2 align="center">
     Simplifying the renting experience
@@ -33,13 +32,10 @@ We designed an AI chatbot that can be added as a plugin in the website of a Hote
 
 </details>
 
-## Web App
+## Video Demo
 
-[View Here](https://ai-booking-assistant.vercel.app/dashboard)
+[View the Dashboard Walkthrough](https://youtu.be/n41foi7docg)
 
-## ChattyRental Server
-
- [Server](link)
 
 ## Screenshots
 ![pic_1](https://user-images.githubusercontent.com/19821445/229638515-b808329c-0c47-406b-8969-241209a57f0a.PNG)
