@@ -74,14 +74,6 @@ We decided to use OpenAI Whisper because it is a powerful natural language proce
 3. Intelligent Search: Room rental platforms could leverage OpenAI Whisper to improve their search functionality by allowing users to search for rooms using natural language queries. This could make it easier for users to find the right room for their needs and create a more streamlined search experience.
 
 
-## How to use the app
-
-**Step #1** - Clone the project
-
-```bash
-$ git clone https://github.com/sandramsc/ChattyRental.git
-```
-
 ## Authors
 
 | Name            | Link                                   |
