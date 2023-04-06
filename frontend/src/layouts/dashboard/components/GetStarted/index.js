@@ -18,7 +18,7 @@ import wavesWhite from "assets/images/shapes/waves-white.svg";
 function GetStarted() {
   return (
     <Card>
-      <SoftBox bgColor="info" p={2}>
+      <SoftBox bgColor="#0594e0" p={2}>
         <Grid container spacing={3}>
           <Grid item xs={12} ml={2} lg={6}>
             <SoftBox display="flex" flexDirection="column" height="100%">

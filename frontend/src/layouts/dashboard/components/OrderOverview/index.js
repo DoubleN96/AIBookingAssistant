@@ -39,7 +39,7 @@ function OrderOverview() {
       open={Boolean(menu)}
       onClose={closeMenu}
     >
-    <MenuItem onClick={closeMenu}>Add +</MenuItem>
+    <MenuItem onClick={closeMenu}>View All</MenuItem>
     </Menu>
   );
 
