@@ -20,7 +20,7 @@ function ExcelDatabase() {
         <Grid item xs={12} ml={2} pt={4} lg={6}>
             <SoftBox display="flex" flexDirection="column" height="100%">
               <SoftBox pt={1} pb={2.6} mb={0.5}>
-                <SoftTypography variant="h4" color="info" fontWeight="medium">
+                <SoftTypography variant="h4" color="#0594e0" fontWeight="medium">
                   Chat Integrations
                 </SoftTypography>
               </SoftBox>
