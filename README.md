@@ -1,7 +1,6 @@
 <!-- PROJECT TITLE -->
-  <h1 align="center">ChattyRental</h1>
   <div id="header" align="center">
-  <img src="https://drive.google.com/file/d/1mlWQs3eLJZ_F6RMnlBZzLLGzcZWGfmD4/view" width="250"/>
+  <img src="https://user-images.githubusercontent.com/19821445/230167293-c516e09e-5630-4992-a9b7-80c3a72b6a77.png" width="550" width="250"/>
 </div>
  <h2 2 align="center">
     Simplifying the renting experience
@@ -35,13 +34,13 @@ We designed an AI chatbot that can be added as a plugin in the website of a Hote
 
 ## Video Demo
 
-View the Demo [App](link)
-
-## ChattyRental Server
-
- [Server](link)
+[View the Dashboard Walkthrough](https://youtu.be/n41foi7docg)
 
 ## Screenshots
+![pic_1](https://user-images.githubusercontent.com/19821445/229638515-b808329c-0c47-406b-8969-241209a57f0a.PNG)
+![pic_2](https://user-images.githubusercontent.com/19821445/229638532-ae4d8a36-a8d1-477c-bb69-c2127dec520e.PNG)
+![pic_3](https://user-images.githubusercontent.com/19821445/229638545-55743f7b-5c9a-451c-9dfd-8a8933a93c56.PNG)
+![pic_4](https://user-images.githubusercontent.com/19821445/229638483-4b9f7237-27d2-4380-9154-ea40cad5c868.PNG)
 
 ## Technology Stack
 
