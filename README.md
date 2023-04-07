@@ -49,8 +49,18 @@ We designed an AI chatbot that can be added as a plugin in the website of a Hote
 | Material-UI      | React UI library                              |
 | TypeScript       | Object-oriented language                      |
 | React.js         | JavaScript library                            |
-| Nest.js           | A progressive Node.js framework for building efficient and scalable server-side applications.                     |
-| Prisma          | Prisma is an open-source ORM for Node.js and TypeScript                      |
+| Huggingface          | Prisma is an open-source ORM for Node.js and TypeScript                      |
+| Streamlit          | Prisma is an open-source ORM for Node.js and TypeScript                      |
+| Whisper AI          | Prisma is an open-source ORM for Node.js and TypeScript                      |
+| chatGPT          | Prisma is an open-source ORM for Node.js and TypeScript                      |
+| LangChain          | Prisma is an open-source ORM for Node.js and TypeScript                      |
+| Gradio          | Prisma is an open-source ORM for Node.js and TypeScript                      |
+| FastAPI          | Prisma is an open-source ORM for Node.js and TypeScript                      |
+| Python          | Prisma is an open-source ORM for Node.js and TypeScript                      |
+| Pydantic          | Prisma is an open-source ORM for Node.js and TypeScript                      |
+| Railway          | Prisma is an open-source ORM for Node.js and TypeScript                      |
+| Vercel          | Prisma is an open-source ORM for Node.js and TypeScript                      |
+| TailwindCSS          | Prisma is an open-source ORM for Node.js and TypeScript                      |
 
 ## Problem
 
