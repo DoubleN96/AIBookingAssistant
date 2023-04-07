@@ -49,24 +49,18 @@ We designed an AI chatbot that can be added as a plugin in the website of a Hote
 | Material-UI      | React UI library                              |
 | TypeScript       | Object-oriented language                      |
 | React.js         | JavaScript library                            |
-| Streamlit         |   an open-source app framework for Machine Learning and Data Science teams                         |
+| Streamlit         |   an open-source app framework for Machine Learning and Data Science teams        |
 | Huggingface          |   a company that develops tools for building applications using machine learning
-                                          |
-| Whisper AI          |   a general-purpose speech transcription model
-                     |
+| Whisper AI          |   a general-purpose speech transcription model|
 | chatGPT          |   an artificial-intelligence (AI) chatbot developed by OpenAI                     |
 | LangChain          |    a framework for developing applications powered by language models                   |
 | Gradio          |    a python library that makes it super easy for machine learning engineers to create user interfaces                   |
-| FastAPI          |   a Web framework for developing RESTful APIs in Python
-                    |
-| Python          |    a high-level, general-purpose programming language
-                   |
-| Pydantic          |   a data validation and settings management using python type annotations
-                    |
-| Railway          |  an infrastructure platform where you can provision infrastructure, develop with that infrastructure locally, and then deploy to the cloud                     |
+| FastAPI          |   a Web framework for developing RESTful APIs in Python       |
+| Python          |    a high-level, general-purpose programming language       |
+| Pydantic          |   a data validation and settings management using python type annotations       |
+| Railway          |  an infrastructure platform where you can provision infrastructure, develop with that infrastructure locally, and then deploy to the cloud  |     
 | Vercel          |   cloud platform as a service company                    |
-| TailwindCSS          |   an open source CSS framework
-                    |
+| TailwindCSS          |   an open source CSS framework       |
 
 ## Problem
 
