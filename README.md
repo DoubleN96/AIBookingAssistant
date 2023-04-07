@@ -92,7 +92,8 @@ We decided to use OpenAI Whisper because it is a powerful natural language proce
 | Sandra Ashipala | https://github.com/sandramsc |
 | Marcelino Ribon | https://lablab.ai/u/@Marcelinoribon |
 | Gabriel Kunzer | https://github.com/johnnyknoxville1337 |
-| NAME | https://github.com/LINK |
+| Irfan Mansuri | https://www.linkedin.com/in/irfan-mansuri-130687180/ |
+| Jesús Vélez Santiago | https://github.com/jvelezmagic |
 | NAME | https://github.com/LINK |
 
 ## Participating
