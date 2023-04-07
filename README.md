@@ -46,9 +46,9 @@ We designed an AI chatbot that can be added as a plugin in the website of a Hote
 
 | Technology       | Description                                   |
 | ---------------- | --------------------------------------------- |
-| Material-UI      | React UI library                              |
-| TypeScript       | Object-oriented language                      |
-| React.js         | JavaScript library                            |
+| Material-UI      | react UI library                              |
+| TypeScript       | object-oriented language                      |
+| React.js         | javaScript library                            |
 | Streamlit         |   an open-source app framework for Machine Learning and Data Science teams        |
 | Huggingface          |   a company that develops tools for building applications using machine learning
 | Whisper AI          |   a general-purpose speech transcription model|
