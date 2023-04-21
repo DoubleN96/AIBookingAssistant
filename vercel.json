@@ -2,7 +2,7 @@
     "version": 2,
     "builds": [
       {
-        "src": "/app/audio_input.py",
+        "src": "/app/main.py",
         "use": "@vercel/python",
         "config": {
           "requirements": "requirements.txt"

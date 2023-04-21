@@ -74,7 +74,8 @@ def ask_for_booking_details(message_history: list[dict], user_input: str, bookin
         needed_entities = [
             ent_name for ent_name in ['FULL_NAME', 'DATES', 'CITY', 'BUDGET', 'GUEST_COUNT'] if ent_name not in known
         ]
-
+    # TODO
+    # add granularity to the booking user
         system_content['content'] += (
             f"ONLY ask him nicely for these information on `{', '.join(needed_entities)}`for his booking."
             f"You ask ONLY about: `{', '.join(needed_entities)}`"

@@ -8,14 +8,14 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 import requests
 
-import whatsapp as wa
+import app.whatsapp.whatsapp as wa
 
 creds = {
     "username": "your_username",
     "password": "your_password",
     "business_number": "your_business_number"
 }
-url = "https://api.chat-api.com/instance12345/sendMessage?token=your_token"
+url = "https://graph.facebook.com/v16.0/109519162104182/messages"
 
 
 def handle_message(data):

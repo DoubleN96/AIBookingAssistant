@@ -6,7 +6,7 @@ import openai
 from langchain.prompts import PromptTemplate
 from langchain.llms import OpenAI
 from langchain.chains import LLMChain
-
+ 
 from app.conversation_manager.prompt import ASSISTANT_PROMPT_1, SYSTEM_PROMPT, USER_PROMPT_1, GUIDELINES_PROMPT
 
 MODEL = 'gpt-3.5-turbo'

@@ -15,8 +15,10 @@ def get_room_dataframe(source_file='/home/chatbot_fastapi/app/data/tripath.csv')
     city_mapping = {
         city_item[0][0]: city_item[0][1] for city_item in room_data[['city', 'city_id']].value_counts().items()
     }
+
     return room_data[
         [
             'listing_id', 'description', 'city', 'city_id', 'status', 'CHECK-IN', 'CHECK-OUT', 'price'
         ]
-    ], city_mapping
+        ], city_mapping
+    

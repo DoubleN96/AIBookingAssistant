@@ -1,6 +1,7 @@
 import os
 import re
 import logging
+import openai
 
 from ast import literal_eval
 
@@ -11,10 +12,13 @@ from fastapi.responses import JSONResponse
 from twilio.twiml.messaging_response import MessagingResponse
 from typing import Tuple
 import requests
-import speech_recognition as sr
+# import speech_recognition as sr
 
+from pydantic import BaseModel
 
 from time import perf_counter
+
+from decouple import config
 
 
 from app.conversation_manager.context_memory import (
@@ -39,6 +43,10 @@ app = FastAPI(
     version=APP_VERSION
 )
 
+# openai.api_key = config("OPENAI_API_KEY")
+whatsapp_number = config("TO_NUMBER")
+
+
 logging.info('☺ ☺ ☺ waiting for input ☺ ☺ ☺')
 
 BOOKINGS_CACHE = {}
@@ -51,7 +59,7 @@ DATA, CITY_MAPPING = get_room_dataframe()
 DATA_VECTORS = get_data_vectors(DATA)
 REDIS_CONNECTOR = get_redis_connector('redis')
 
-REDIS_CONNECTOR.flushall()# Path: app/whatsapp.
+REDIS_CONNECTOR.flushall()
 
 create_flat_index(
     REDIS_CONNECTOR,
@@ -153,6 +161,26 @@ async def process_voice_input(url: str) -> str:
     return response.text
 
 
+# class AudioMessage(BaseModel):
+    # sender: str
+    # audio: bytes
+
+# @app.post("/audio")
+# async def receive_audio(audio_message: AudioMessage):
+    # # Handle incoming audio message
+    # sender = audio_message.sender
+    # audio_data = audio_message.audio
+#     
+    # # Convert audio to text using a speech-to-text library like `SpeechRecognition`
+    # # You can install the `SpeechRecognition` library via pip:
+    # # `pip install SpeechRecognition`
+#     
+    # r = sr.Recognizer()
+    # with sr.AudioFile(audio_data) as source:
+        # audio_text = r.recognize_google(source)
+#     Reach out to us ￼
+
+
 def recommend(user_input: BookingItem):
     logging.warning(
         [BOOKINGS_CACHE, BOOKING_REQUEST]
@@ -240,10 +268,7 @@ def recommend(user_input: BookingItem):
         if not app.booking_demo_history:
             overview = 'Your apartment was booked already. Your listing overview: ' + str(BOOKINGS_CACHE) + '\n\n'
             app.booking_demo_history, answer = ask_about_general_requirements_response(
-                app.booking_demo_history, 'I booked an accomodation in city: ' + BOOKING_REQUEST['CITY']
-            )
-        else:
-            overview = None
+                app.booking_demo_history, 'I booked an accomBOOKING_REQUEST')
             app.booking_demo_history, answer = ask_about_general_requirements_response(
                 app.booking_demo_history, user_input.text
             )
